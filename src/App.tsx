@@ -9,7 +9,7 @@ export default function App() {
 
   const handleLogin = async () => {
     try {
-      const jsessionid = await doLogin(url, usuario, senha);
+      const jsessionid = await doLogin(usuario, senha, url);
       console.log("✅ Login realizado com sucesso!");
 
       await carregarProdutos();

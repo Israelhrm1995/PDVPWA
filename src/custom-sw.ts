@@ -104,16 +104,21 @@ self.addEventListener('message', async (event: ExtendableMessageEvent) => {
 });
 
 async function loginLogic(username: string, password: string, url: string): Promise<any> {
-  const res = await fetch(`${url}/mge/service.sbr?serviceName=MobileLoginSP.login&outputType=json`, {
+  const xmlBody = `
+    <serviceRequest serviceName="MobileLoginSP.login">
+      <requestBody>
+        <NOMUSU>${username}</NOMUSU>
+        <INTERNO>${password}</INTERNO>
+      </requestBody>
+    </serviceRequest>
+  `;
+
+  const res = await fetch(`${url}/mge/service.sbr?serviceName=MobileLoginSP.login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-    body: JSON.stringify({
-      serviceName: "MobileLoginSP.login",
-      requestBody: {
-        username,
-        password
-      }
-    })
+    headers: {
+      'Content-Type': 'application/xml'
+    },
+    body: xmlBody.trim()
   });
 
   const text = await res.text();
@@ -122,23 +127,18 @@ async function loginLogic(username: string, password: string, url: string): Prom
     throw new Error(`Erro HTTP ${res.status}: ${text}`);
   }
 
-  try {
-    const json = JSON.parse(text);
-    const sessionId = json.responseBody?.jsessionid;
-    if (!sessionId) throw new Error('Sessão não retornada pelo login');
+  const jsessionMatch = text.match(/<jsessionid>(.*?)<\/jsessionid>/);
+  if (!jsessionMatch) throw new Error("Sessão não retornada pelo login");
 
-    // Armazena sessão no worker
-    setSession(sessionId, url);
+  const sessionId = jsessionMatch[1];
+  setSession(sessionId, url);
 
-    return {
-      sessionId,
-      backendUrl: url
-    };
-  } catch (err) {
-    console.error('Erro ao interpretar resposta de login:', err);
-    throw new Error('Resposta de login inválida');
-  }
+  return {
+    sessionId,
+    backendUrl: url
+  };
 }
+
 
 interface CallJsonPayload {
   serviceName: string;
