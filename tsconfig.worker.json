@@ -1,0 +1,11 @@
+// tsconfig.worker.json
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "lib": ["ES2021", "WebWorker"],
+      "noEmit": false, // Agora sim queremos gerar o .js
+      "outDir": "dist", // ou outro local, se preferir
+      "types": []
+    },
+    "include": ["src/service-worker.ts"]
+  }
