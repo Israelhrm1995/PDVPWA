@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PWA React com SQLite</title>
     <link rel="manifest" href="/manifest.json" />
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/service-worker.ts").then(
-                () => console.log("Service Worker registrado com sucesso!"),
-                (error) => console.error("Erro ao registrar o Service Worker:", error)
-            );
-        }
-    </script>
 </head>
 <body>
     <div id="root"></div>

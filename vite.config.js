@@ -14,7 +14,8 @@ export default defineConfig({
       },
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: false
+        enabled: true, // ✅ ativa o SW no modo dev
+        type: 'module'
       },
       workbox: {
         skipWaiting: true,
