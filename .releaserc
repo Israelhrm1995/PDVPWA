@@ -1,0 +1,36 @@
+{
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          {
+            "type": "breaking",
+            "scope": "API",
+            "release": "major"
+          }
+        ]
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true
+      }
+    ],
+    [
+      "@semantic-release/gitlab",
+      {
+        "gitlabUrl": "https://gitlab.sankhya.com.br",
+        "gitlabApiPathPrefix": "/api/v4"
+      }
+    ]
+  ],
+  "branches": [
+    {"name": "master"},
+    {"name": "beta", "channel": "beta", "prerelease": true}
+  ],
+  "tagFormat": "ReactStarter_${version}"
+}

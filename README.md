@@ -55,6 +55,16 @@ npm install --save-dev @types/react @types/react-dom # se erro com o useState
 npm run dev          # desenvolvimento
 npm run build        # build de produção
 npm install vite-plugin-pwa --save-dev
+
+# 1. Rode o proxy
+npm install --save-dev @types/cors
+npm install raw-body
+cd proxy-server
+npx ts-node index.ts
+
+# 2. Em outro terminal, rode seu PWA
+cd ..
+npm run dev
 ```
 
 Para funcionar offline como PWA:

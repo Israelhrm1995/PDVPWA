@@ -1,44 +1,12 @@
-import { useState } from "react";
-import { doLogin } from "@/services/externo/login.service";
-import { carregarProdutos } from "@/services/externo/carga.service";
+import { RouterProvider } from "react-router-dom";
+import "./globals.css";
+import { router } from "./presentation/routes/route";
 
-export default function App() {
-  const [url, setUrl] = useState<string>("");
-  const [usuario, setUsuario] = useState<string>("");
-  const [senha, setSenha] = useState<string>("");
-
-  const handleLogin = async () => {
-    try {
-      const jsessionid = await doLogin(usuario, senha, url);
-      console.log("✅ Login realizado com sucesso!");
-
-      await carregarProdutos();
-      console.log("📦 Carga de dados finalizada!");
-    } catch (e: any) {
-      console.error("❌ Erro no login ou carga:", e.message || e);
-    }
-  };
-
+const App: React.FC = () => {
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Login ERP</h2>
-      <input
-        placeholder="URL da API"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      /><br />
-      <input
-        placeholder="Usuário"
-        value={usuario}
-        onChange={(e) => setUsuario(e.target.value)}
-      /><br />
-      <input
-        placeholder="Senha"
-        type="password"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-      /><br />
-      <button onClick={handleLogin}>Entrar e Sincronizar</button>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
-}
+};
+export default App;

@@ -16,10 +16,19 @@
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
-        "@/*": ["src/*"]
-      }
+        "@/*": ["src/*"],
+        "@/components/*": ["./src/components/*"],
+      },
+      "useDefineForClassFields": true,
+      "allowImportingTsExtensions": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "strictNullChecks": false,
+  
+      "types": ["vitest/globals"],
     },
-    "include": ["src"],
+    "include": ["src", "index.tsx"],
     "exclude": ["node_modules", "dist"]
   }
   
