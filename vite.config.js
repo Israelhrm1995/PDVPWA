@@ -4,28 +4,41 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { resolve } from 'path';
 import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(({ mode })=>{
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
     plugins: [
       react(),
+      tailwindcss(),
       VitePWA({
-        strategies: 'injectManifest',
-        injectManifest: {
-          swSrc: resolve(__dirname, 'src/custom-sw.ts'),
-          swDest: 'service-worker.js' 
-        },
         registerType: 'autoUpdate',
-        devOptions: {
-          enabled: false
-        },
         workbox: {
           skipWaiting: true,
           clientsClaim: true
+        },
+        includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+        manifest: {
+          name: 'PDV PWA',
+          short_name: 'PDV',
+          start_url: '/',
+          display: 'standalone',
+          background_color: '#ffffff',
+          theme_color: '#0f172a',
+          icons: [
+            {
+              src: '/pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: '/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ]
         }
-      }),
-      tailwindcss()
+      })
     ],
     server: {
       port: Number(env.SERVER_PORT || 7777),
@@ -35,11 +48,11 @@ export default defineConfig(({ mode })=>{
     },
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src') // ✅ permite usar "@/services/..." no seu código
+        '@': resolve(__dirname, 'src')
       }
     },
     optimizeDeps: {
-      exclude: ["@sankhyalabs/ezui/loader","@sankhyalabs/sankhyablocks/loader"],
+      exclude: ["@sankhyalabs/ezui/loader", "@sankhyalabs/sankhyablocks/loader"],
     },
-  }
+  };
 });

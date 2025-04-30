@@ -17,4 +17,11 @@ export class PrecoService {
   static async remover(id_preco: number) {
     return await db.preco.delete(id_preco);
   }
+
+  static async buscarPorIdProduto(idProduto: number): Promise<Preco[]> {
+    return await db.preco
+      .where('id_produto')
+      .equals(idProduto)
+      .toArray();
+  }
 }

@@ -10,12 +10,19 @@ export class ImagemProdutoService {
       return await db.imagensProduto.toArray();
     }
   
-    static async atualizar(preco: ImagemProduto) {
-      return await db.imagensProduto.put(preco);
+    static async atualizar(imagem: ImagemProduto) {
+      return await db.imagensProduto.put(imagem);
     }
   
-    static async remover(id_preco: number) {
-      return await db.imagensProduto.delete(id_preco);
+    static async remover(id_produto: number) {
+      return await db.imagensProduto.delete(id_produto);
+    }
+
+    static async buscarPorIdProduto(idProduto: number): Promise<ImagemProduto[]> {
+        return await db.imagensProduto
+          .where('id_produto')
+          .equals(idProduto)
+          .toArray();
     }
 
 }

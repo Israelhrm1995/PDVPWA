@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const jsessionid = await doLogin(usuario, senha);
+      await doLogin(usuario, senha);
       console.log("✅ Login realizado com sucesso!");
 
       await executarCargaGeral();

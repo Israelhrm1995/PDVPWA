@@ -17,4 +17,11 @@ export class ProdutoService {
   static async remover(id_produto: number) {
     return await db.produtos.delete(id_produto);
   }
+
+  static async buscarPorEan(ean: string): Promise<Produto | undefined> {
+    return await db.produtos
+      .where('ean')
+      .equals(ean)
+      .first();
+  }
 }

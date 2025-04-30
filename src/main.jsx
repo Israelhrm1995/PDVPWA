@@ -4,7 +4,7 @@ import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
-// ✅ Registro correto do Service Worker
+// ✅ Registra o Service Worker para cache/offline
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
