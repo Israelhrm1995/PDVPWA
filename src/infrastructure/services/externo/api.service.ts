@@ -1,10 +1,16 @@
-import { getSessionId } from "../externo/session";
+import { getSessionId, getBackendUrl } from "../externo/session";
 
 export async function callJsonService(serviceName: string, requestBody: Record<string, any>) {
   const sessionId = getSessionId();
-  if (!sessionId) throw new Error("Sessão inválida ou expirada.");
+  const backendUrl = getBackendUrl();
 
-  const response = await fetch(`http://localhost:3000/checkout?serviceName=${serviceName}&mgeSession=${sessionId}`, {
+  if (!sessionId || !backendUrl) {
+    throw new Error("Sessão inválida ou backend não configurado.");
+  }
+
+  const url = `https://primary-pwa-api.onrender.com/checkout?serviceName=${serviceName}&mgeSession=${sessionId}&host=${encodeURIComponent(backendUrl)}`;
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -22,6 +28,6 @@ export async function callJsonService(serviceName: string, requestBody: Record<s
   }
 
   const data = await response.json();
-  
+
   return data.responseBody;
 }

@@ -18,10 +18,10 @@ export class PrecoService {
     return await db.preco.delete(id_preco);
   }
 
-  static async buscarPorIdProduto(idProduto: number): Promise<Preco[]> {
+  static async buscarPorIdProduto(idProduto: number): Promise<Preco> {
     return await db.preco
       .where('id_produto')
       .equals(idProduto)
-      .toArray();
+      .first();
   }
 }

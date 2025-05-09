@@ -5,4 +5,5 @@ export interface Produto {
   id_volume: number;
   ativo: boolean;
   ean: string;
+  marca: string;
 }

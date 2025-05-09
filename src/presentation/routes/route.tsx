@@ -1,15 +1,9 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createHashRouter, Navigate } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import SalesPage from "../features/sales/pages/SalesPage";
 import NotFoundPage from "../components/error/NotFoundPage";
-import LoginPage from "../features/auth/pages/LoginPage";
 
-export const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginPage />,
-    children: [{ path: "", element: <LoginPage /> }],
-  },
+export const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,

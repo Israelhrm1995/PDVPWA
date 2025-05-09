@@ -24,4 +24,11 @@ export class ProdutoService {
       .equals(ean)
       .first();
   }
+
+  static async buscarPorEanQueComecaCom(prefixoEan: string): Promise<Produto[]> {
+    return await db.produtos
+      .where('ean')
+      .startsWith(prefixoEan)
+      .toArray();
+  }
 }

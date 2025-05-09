@@ -4,8 +4,8 @@ import { ImagemProduto } from "@/infrastructure/models/imagem-produto.model";
 import { ImagemProdutoService } from "../../imagem-produto.service";
 
 
-export async function carregarImagens(): Promise<void> {
-  const identificador = await getIdentificadorPDV();
+export async function carregarImagens(serie: string, empresa: number): Promise<void> {
+  const identificador = await getIdentificadorPDV(serie, empresa);
 
   const requestBody = {
     PDV: identificador.assinatura,

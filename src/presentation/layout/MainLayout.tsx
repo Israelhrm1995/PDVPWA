@@ -1,23 +1,43 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { EzButton, EzSearch } from "@sankhyalabs/ezui/react/components";
-import Logo from '../assets/logo.png';
+import ProductSearch from "../features/sales/components/ProductSearch";
+import SideBar from "./components/SideBar";
+import { FaArrowRight } from "react-icons/fa";
+import MoreOptionsButton from "./components/MoreOptionsButton";
 
 export default function MainLayout() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [expanded, setExpanded] = useState(true);
+
   return (
-    <div className="flex h-screen">
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col bg-gray-100">
+    <div className="flex h-screen text-gray-800">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col bg-[#EAEBEE]">
         {/* Topbar */}
         <header className="flex items-center justify-between px-6 py-4">
-          <EzSearch className="w-1/4"/>
-          <div className="flex gap-2">
-          <EzButton label="Consultar Produto F8"></EzButton>
-          <EzButton label="Importar Pedido F10"></EzButton>
-          <EzButton mode="icon" iconName="dots-horizontal" label="Importar Pedido F10"></EzButton>
-          {!isSidebarOpen && <EzButton mode="icon" iconName="show_menu" label="Importar Pedido F10" onClick={()=>{setSidebarOpen(!isSidebarOpen)}} ></EzButton>}
+          <ProductSearch />
+          <div className="flex gap-2 h-full">
+            <button className="border border-[#dce0e8] bg-gray-50 rounded-full h-full px-6 text-sm font-semibold">
+              Consultar Produto{" "}
+              <span className="text-gray-400 pl-1 font-normal">F8</span>
+            </button>
+            <button className="border border-[#dce0e8] bg-gray-50 rounded-full h-full px-6 text-sm font-semibold">
+              Importar Pedido{" "}
+              <span className="text-gray-400 pl-1 font-normal">F10</span>
+            </button>
+            <MoreOptionsButton />
+            {!isSidebarOpen && (
+              <>
+                <button
+                  onClick={() => {
+                    setSidebarOpen(!isSidebarOpen);
+                  }}
+                  className={`transition-colors duration-150 flex justify-center items-center hover:text-[#008561] bg-gray-50 border border-[#dce0e8] cursor-pointer p-3 rounded-full`}
+                  aria-label="Aparecer menu"
+                >
+                  <FaArrowRight size="1.2rem" className="" />
+                </button>
+              </>
+            )}
           </div>
         </header>
 
@@ -27,48 +47,7 @@ export default function MainLayout() {
         </main>
       </div>
       {/* Sidebar */}
-      <aside className={`w-1/4 bg-white rounded-xl shadow p-4  flex flex-col ${isSidebarOpen ? "block" : "hidden"}`}>
-      <div className="flex items-center justify-between mb-4 gap-2">
-        <div className="flex justify-center justify-between w-full border rounded py-2">
-          <img src={Logo} alt="Logo" className="h-[3rem] text-center w-[12rem]" />
-        </div>
-          <EzButton mode="icon" iconName="show_menu" label="Importar Pedido F10" onClick={()=>{setSidebarOpen(!isSidebarOpen)}}></EzButton>
-        </div>
-      <div className="text-center">
-          <h2 className="text-lg font-semibold mb-2">Manta Líquida Branco 15Kg Bautech</h2>
-          <img
-            src="https://via.placeholder.com/100"
-            alt="Produto"
-            className="mx-auto mb-4"
-          />
-          <div className="text-sm text-gray-500 mb-2">Marca: <strong>Bautech</strong></div>
-          <div className="text-sm text-gray-500 mb-4">Cód de Barras: 89110742</div>
-        </div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          <div className="flex flex-col">
-            <label>Quantidade</label>
-            <input type="text" className="border rounded p-1" value="5,00"  />
-          </div>
-          <div className="flex flex-col">
-            <label>Vlr. Unitário</label>
-            <input type="text" className="border rounded p-1" value="5,99" readOnly />
-          </div>
-          <div className="flex flex-col">
-            <label>% Desconto</label>
-            <input type="text" className="border rounded p-1" value="5,00"  />
-          </div>
-          <div className="flex flex-col">
-            <label>Vlr. Desconto</label>
-            <input type="text" className="border rounded p-1" value="0,00"  />
-          </div>
-          <div className="col-span-2 flex flex-col">
-            <label>Vlr. Total</label>
-            <input type="text" className="border rounded p-1" value="1.282,05" readOnly />
-          </div>
-        </div>
-      </aside>
-
-
+      <SideBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
     </div>
   );
 }

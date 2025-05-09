@@ -6,6 +6,9 @@
         "dev": "vite",
         "build": "vite build",
         "serve": "vite preview",
+        "build:develop": "env-cmd -f envs/.env.development npm run build",
+        "build:staging": "env-cmd -f envs/.env.staging npm run build",
+        "build:production": "env-cmd -f envs/.env.production npm run build",
         "update-sankhyalabs": "npm i -D --force --save-exact @sankhyalabs/core@develop @sankhyalabs/ez-design@develop @sankhyalabs/ezui@develop @sankhyalabs/sankhyablocks@develop",
         "update-sankhyalabs-ms": "npm i -D --force --save-exact @sankhyalabs/core@milestone @sankhyalabs/ez-design@milestone @sankhyalabs/ezui@milestone @sankhyalabs/sankhyablocks@milestone",
         "update-sankhyalabs-rc": "npm i -D --force --save-exact @sankhyalabs/core@release @sankhyalabs/ez-design@release @sankhyalabs/ezui@release @sankhyalabs/sankhyablocks@release",
@@ -17,17 +20,19 @@
         "dexie": "^4.0.11",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
+        "react-icons": "^5.5.0",
         "react-router-dom": "^7.5.1",
         "sql.js": "^1.12.0",
-        "zustand": "^4.4.7"
+        "zustand": "^4.4.7",
+        "env-cmd": "^10.1.0"
     },
     "devDependencies": {
         "@rollup/pluginutils": "^5.1.0",
         "@sankhya-ds-mock/ds-workspace-mock": "^1.0.0",
-        "@sankhyalabs/core": "6.1.0-dev.2",
+        "@sankhyalabs/core": "6.1.0-dev.3",
         "@sankhyalabs/ez-design": "6.1.0-dev.1",
-        "@sankhyalabs/ezui": "6.1.0-dev.17",
-        "@sankhyalabs/sankhyablocks": "9.1.0-dev.12",
+        "@sankhyalabs/ezui": "6.1.0-dev.19",
+        "@sankhyalabs/sankhyablocks": "9.1.0-dev.13",
         "@semantic-release/git": "^10.0.1",
         "@semantic-release/gitlab": "^12.1.1",
         "@semantic-release/npm": "^11.0.2",
@@ -63,6 +68,7 @@
         "vite": "^5.4.14",
         "vite-plugin-pwa": "^1.0.0",
         "vitest": "^1.1.1",
-        "workbox-precaching": "^7.3.0"
+        "workbox-precaching": "^7.3.0",
+        "env-cmd": "^10.1.0"
     }
 }

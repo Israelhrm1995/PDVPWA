@@ -17,7 +17,13 @@ export async function validarIdentificador(identificador: IdentificadorPDV): Pro
 
   try {
     const result = await callJsonService("PdvPfxSP.persiste", requestBody);
-    console.log("✅ Identificador validado no backend:", result);
+    if(result.TPDV_STATUS == 500){
+      console.log("❌ Identificador não validado no backend:", result.TPDV_MSG);
+      throw new Error(result.TPDV_MSG)
+    } else{
+      console.log("✅ Identificador validado no backend:", result);
+    }
+    
   } catch (error: any) {
     console.error("❌ Falha ao validar identificador no backend:", error.message);
     erros.push(error.message || "Erro desconhecido.");

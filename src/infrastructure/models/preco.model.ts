@@ -1,6 +1,6 @@
 export interface Preco {
     id_preco: number; 
     id_produto: number;
-    preco: string;
+    preco: number;
     datavigor?: Date;
   }

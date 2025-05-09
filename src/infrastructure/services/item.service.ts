@@ -10,10 +10,6 @@ export class ItemService {
     return await db.itens.toArray();
   }
 
-  static async listarPorProduto(produto_Id: number) {
-    return await db.itens.where({ produto_Id }).toArray();
-  }
-
   static async atualizar(item: Item) {
     return await db.itens.put(item);
   }
@@ -21,4 +17,18 @@ export class ItemService {
   static async remover(id_item: number) {
     return await db.itens.delete(id_item);
   }
+
+  static async deletarPorIdMovimento(idMovimento: number) {
+      await db.itens
+      .where('id_movimento')
+      .equals(idMovimento)
+      .delete()
+  }
+
+  static async buscarPorId(idItem: number): Promise<Item> {
+      return await db.itens
+        .where('id_item')
+        .equals(idItem)
+        .first();
+    }
 }

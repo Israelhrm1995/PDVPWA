@@ -21,12 +21,12 @@ export class PDVDatabase extends Dexie {
   constructor() {
     super('PDVDatabase');
     this.version(1).stores({
-      produtos: 'id_produto',
+      produtos: 'id_produto, ean',
       preco: 'id_produto',
       imagensProduto: 'id_produto',
       itens: '++id_item, id_movimento, id_produto, id_preco',
       identificadorPDV: "++id, assinatura",
-      movimento: "++id_movimento",
+      movimento: "++id_movimento, status",
       financeiro: "++id_financeiro",
       formas_Pagamento: "id_forma_pgto",
     });

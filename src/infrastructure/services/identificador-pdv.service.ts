@@ -1,4 +1,5 @@
 import { db } from "../db/pdv-db";
+import type { Transaction } from 'dexie';
 import { IdentificadorPDV } from "../models/identificador-pdv.model";
 
 export class IdentificadorPDVService {
@@ -10,7 +11,7 @@ export class IdentificadorPDVService {
     return await db.identificadorPDV.toCollection().first();
   }
 
-  static async salvarOuAtualizar(dados: IdentificadorPDV): Promise<number> {
+  static async salvarOuAtualizar(dados: IdentificadorPDV, tx?: Transaction): Promise<number> {
     const existente = await this.obter();
     if (existente) {
       return await db.identificadorPDV.update(existente.id!, dados);

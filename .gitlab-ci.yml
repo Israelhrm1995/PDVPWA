@@ -1,0 +1,45 @@
+stages:
+  - npm_build
+  - upload_bucket_oci
+
+variables:
+  WEB_COMPONENT_FILE: sankhya-venda-mais.js
+  OCI_BUCKET_NAME: pwa-pdv-web
+
+npm_build:
+  image: node:18.16.0-alpine
+  stage: npm_build
+  variables:
+    NODE_OPTIONS: "--openssl-legacy-provider"
+  before_script:
+    - npm install -f
+    - export REACT_APP_HUB_ACTIVE=true
+    - if [ "$CI_COMMIT_REF_NAME" = "develop" ]; then export REACT_APP_API_URL="venda-mais-api-dev/"; fi
+    - if [ "$CI_COMMIT_REF_NAME" = "staging" ]; then export REACT_APP_API_URL="venda-mais-api-stag/"; fi
+    - if [ "$CI_COMMIT_REF_NAME" = "production" ]; then export REACT_APP_API_URL="venda-mais-api/"; fi
+  script:
+    - npm run build:$CI_COMMIT_BRANCH
+  only:
+    - develop
+    - staging
+    - production
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - $CI_PROJECT_DIR/dist/
+
+
+upload_bucket_oci:
+  stage: upload_bucket_oci
+  image: sankhyaimages/devops-rclone:ssc-oci
+  variables:
+    BUCKET_NAME: $OCI_BUCKET_NAME-$CI_COMMIT_BRANCH/
+  needs:
+    - npm_build
+  only:
+    - develop
+    - staging
+    - production
+  script:
+    - echo "Publicando $WEB_COMPONENT_FILE para o bucket $BUCKET_NAME"
+    - rclone copy --progress $CI_PROJECT_DIR/dist/ oci:$BUCKET_NAME

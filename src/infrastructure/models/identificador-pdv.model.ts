@@ -26,13 +26,11 @@ export interface IdentificadorPDV {
 export const valoresPadraoIdentificador: IdentificadorPDV = {
   homologacao: 'S', 
   descricao: 'Piloto',
-  codempresa: 1,
   tipoeqpfiscal: '65',
   impressoradefault: '?',
   satdefault: '?',
   integraparceiro: 'N',
   configurado: 'S',
-  serie: '1',
   contingenciasat: 'N',
   tipotef: 3,
   csch: '999999999',

@@ -5,4 +5,7 @@ export interface Item {
   id_preco: number;     
   valor_unitario: number;
   valor_total: number;
+  desconto_vlr: number;
+  desconto_perc: number;
+  quantidade: number;
 }

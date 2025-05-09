@@ -3,8 +3,8 @@ import { callJsonService } from "../api.service";
 import { Produto } from "@/infrastructure/models/produto.model";
 import { ProdutoService } from "../../produto.service";
 
-export async function carregarProdutos(): Promise<void> {
-  const identificador = await getIdentificadorPDV();
+export async function carregarProdutos(serie: string, empresa: number): Promise<void> {
+  const identificador = await getIdentificadorPDV(serie, empresa);
 
   const requestBody = {
     PDV: identificador.assinatura,
@@ -23,7 +23,8 @@ export async function carregarProdutos(): Promise<void> {
       descricao: p.COMPLEMENTO ?? p.DESCRICAO,
       id_volume: 0,
       ativo: p.ATIVO === "S",
-      ean: p.EAN ?? ""
+      ean: p.EAN ?? "",
+      marca: p.MARCA ?? "SEM MARCA",
     };
 
     await ProdutoService.atualizar(produto);

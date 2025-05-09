@@ -3,7 +3,7 @@ import { salvarIdentificadorComValidacao } from "../controllers/identificador-pd
 import { valoresPadraoIdentificador, IdentificadorPDV } from "../models/identificador-pdv.model";
 import { IdentificadorPDVService } from "../services/identificador-pdv.service";
 
-export async function getIdentificadorPDV(): Promise<IdentificadorPDV> {
+export async function getIdentificadorPDV(serie: string, empresa: number): Promise<IdentificadorPDV> {
   const existente = await IdentificadorPDVService.obter();
   if (existente?.assinatura) return existente;
 
@@ -13,8 +13,14 @@ export async function getIdentificadorPDV(): Promise<IdentificadorPDV> {
   let identificador: IdentificadorPDV = valoresPadraoIdentificador;
   identificador.assinatura = assinatura;
   identificador.ip = ip;
+  identificador.serie = serie;
+  identificador.codempresa = empresa;
 
-  await salvarIdentificadorComValidacao(identificador); 
+  try {
+    await salvarIdentificadorComValidacao(identificador);
+  } catch (err: any) {
+    throw new Error(`Erro ao salvar identificador do PDV: ${err.message}`);
+  }
 
   return identificador;
 }

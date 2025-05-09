@@ -4,8 +4,8 @@ import { Preco } from "@/infrastructure/models/preco.model";
 import { PrecoService } from "../../preco.service";
 import { parseDateBr } from "@/infrastructure/utils/dateUtils";
 
-export async function carregarPrecos(): Promise<void> {
-  const identificador = await getIdentificadorPDV();
+export async function carregarPrecos(serie: string, empresa: number): Promise<void> {
+  const identificador = await getIdentificadorPDV(serie, empresa);
 
   const requestBody = {
     PDV: identificador.assinatura,
