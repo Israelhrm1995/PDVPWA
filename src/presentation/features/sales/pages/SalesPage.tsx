@@ -2,20 +2,32 @@ import { salvarItemMovimento } from "@/infrastructure/controllers/item.controlle
 import { ItemService } from "@/infrastructure/services/item.service";
 import { useDataStore } from "@/presentation/lib/zustand";
 import { EzIcon } from "@sankhyalabs/ezui/react/components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo} from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import PagamentoModal from "@/presentation/layout/components/PagamentoModal";
 
 const SalesPage = () => {  
   const {
-    setItemsCarrinho, itemsCarrinho,
-    setItemSelecionado ,
-    products, setProducts
-} = useDataStore();
+    setItemsCarrinho, 
+    itemsCarrinho,
+    setItemSelecionado,
+    products, 
+    setProducts
+  } = useDataStore();
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const totalValue = products.reduce((sum, product) => sum + product.valor_total, 0);
+  const calculateTotalValue = () => {
+    const total = products.reduce((sum, product) => {
+      return sum + (product.valor_total || 0);
+    }, 0);
+    return total;
+  };
+
+  const totalValue = useMemo(() => {
+    return calculateTotalValue();
+  }, [products]);
 
   const handleDelete = (id_item: number) => {
     try {
@@ -61,6 +73,15 @@ const SalesPage = () => {
     }
   };
 
+  const pagamentoPopUpRef = useRef<HTMLEzPopupElement>(null);
+  const dialogRef = useRef<any>(null);
+
+  const handleOpenPagamentoModal = () => {
+    if (pagamentoPopUpRef.current) {
+      pagamentoPopUpRef.current.opened = true;
+    }
+  };
+
   useEffect(()=>{
     if(!itemsCarrinho?.id_produto) return
       handleInsertCart()
@@ -78,9 +99,6 @@ const SalesPage = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [products.length]);
-
-  const popUpRef = useRef(null)
-  const dialog = useRef(null)
 
   return (
     <div className="flex flex-col h-full w-full gap-2">
@@ -173,10 +191,12 @@ const SalesPage = () => {
           <FiChevronRight color="gray" />
         </button>
 
-        <button className="border border-[#dce0e8] bg-[#008561] rounded-full h-full px-8 text-sm font-semibold text-white" onClick={paymentPopup}>
+        <button className="border border-[#dce0e8] bg-[#008561] rounded-full h-full px-8 text-sm font-semibold text-white"
+        onClick={handleOpenPagamentoModal} >
           Ir para pagamento <span className="text-[#b5ccc6] pl-1 font-normal">F7</span>
         </button>
       </div>
+      <PagamentoModal popUpRef={pagamentoPopUpRef} dialog={dialogRef} valorTotal={totalValue || 0} />
     </div>
   );
 };
