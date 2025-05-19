@@ -6,7 +6,6 @@ import {
 } from "@sankhyalabs/ezui/react/components";
 import { DialogType } from "@sankhyalabs/ezui/dist/types/utils";
 import { RefObject, useState, useEffect } from "react";
-import {getValorTotal} from "@/infrastructure/controllers/";
 
 type PagamentoModalProps = {
   popUpRef: RefObject<HTMLEzPopupElement>;
@@ -21,7 +20,7 @@ type Pagamento = {
   status: 'aguardando' | 'concluido';
 }
 
-export default function PagamentoModal({ popUpRef, dialog}: PagamentoModalProps) {
+export default function PagamentoModal({ popUpRef, dialog, valorTotal}: PagamentoModalProps) {
   const [valorRestante, setValorRestante] = useState<number>(0);
   const [metodoPagamento, setMetodoPagamento] = useState<string>("");
   const [pagamentosRealizados, setPagamentosRealizados] = useState<Pagamento[]>([]);
@@ -60,7 +59,6 @@ export default function PagamentoModal({ popUpRef, dialog}: PagamentoModalProps)
   }, [popUpRef, valorTotal]);
 
   const resetarEstado = () => {
-    let valorAPagar = await getValorTotal();
     setValorRestante(valorAPagar);
     setValorAPagar(valorAPagar);
     setMetodoPagamento("");

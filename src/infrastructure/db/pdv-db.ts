@@ -7,6 +7,7 @@ import { Preco } from '../models/preco.model';
 import { Movimento } from '../models/movimento.model';
 import { Financeiro } from '../models/financeiro.model';
 import { Formas_Pagamento } from '../models/formas_pagamento.model';
+import { itemListener } from '../listeners/item.listener';
 
 export class PDVDatabase extends Dexie {
   produtos!: Table<Produto, number>;
@@ -25,11 +26,13 @@ export class PDVDatabase extends Dexie {
       preco: 'id_produto',
       imagensProduto: 'id_produto',
       itens: '++id_item, id_movimento, id_produto, id_preco',
-      identificadorPDV: "++id, assinatura",
-      movimento: "++id_movimento, status",
-      financeiro: "++id_financeiro",
-      formas_Pagamento: "id_forma_pgto",
+      identificadorPDV: '++id, assinatura',
+      movimento: '++id_movimento, status',
+      financeiro: '++id_financeiro',
+      formas_Pagamento: 'id_forma_pgto',
     });
+
+    itemListener(this);
   }
 }
 

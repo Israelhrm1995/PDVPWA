@@ -1,6 +1,6 @@
 import { ProdutoService } from "../services/produto.service";
 import { Movimento } from "../models/movimento.model";
-import { MovimentoService } from "../services/financeiro.service";
+import { MovimentoService } from "../services/movimento.service";
 import { ItemService } from "../services/item.service";
 import { Item } from "../models/item.model";
 import { Preco } from "../models/preco.model";

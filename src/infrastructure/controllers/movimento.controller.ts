@@ -1,4 +1,4 @@
-import { MovimentoService } from "../services/financeiro.service";
+import { MovimentoService } from "../services/movimento.service";
 import { Movimento } from "../models/movimento.model";
 import { ItemService } from "../services/item.service";
 
